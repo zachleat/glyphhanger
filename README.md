@@ -20,15 +20,10 @@ pip install fonttools
 
 ```sh
 # Additional installation for --flavor=woff2
-git clone https://github.com/google/brotli
-cd brotli
-python setup.py install
+pip install brotli
 
 # Additional installation for --flavor=woff --with-zopfli
-git clone https://github.com/anthrotype/py-zopfli
-cd py-zopfli
-git submodule update --init --recursive
-python setup.py install
+pip install zopfli
 ```
 
 If you want to read an in-depth tutorial on the installation steps above, please read [How I set up Glyphhanger on macOS for optimizing and converting font files for the Web](https://www.sarasoueidan.com/blog/glyphhanger/) by Sara Soueidan.

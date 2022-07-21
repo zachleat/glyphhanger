@@ -16,6 +16,9 @@ See [https://github.com/fonttools/fonttools](https://github.com/fonttools/fontto
 
 ```sh
 pip install fonttools
+
+# Alternative command for WSL
+sudo apt install fonttools
 ```
 
 ```sh

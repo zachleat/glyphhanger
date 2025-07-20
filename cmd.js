@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import minimist from "minimist";
-import chalk from "chalk";
+import pc from "picocolors";
 import {text} from "stream/consumers";
 import GlyphHanger from "./src/GlyphHanger.js";
 import GlyphHangerWhitelist from "./src/GlyphHangerWhitelist.js";
@@ -98,7 +98,7 @@ if( argv.subset ) {
 				await gh.fetchUrls( argv._ );
 			}
 		} catch(e) {
-			console.log(chalk.red("GlyphHanger Fetch Error: "), e);
+			console.log(pc.red("GlyphHanger Fetch Error: "), e);
 			process.exitCode = 1;
 		}
 
@@ -107,7 +107,7 @@ if( argv.subset ) {
 			fontface.setUnicodeRange( gh.getUnicodeRange() );
 			fontface.writeCSSFiles();
 		} catch(e) {
-			console.log(chalk.red("GlyphHangerFontFace Error: "), e);
+			console.log(pc.red("GlyphHangerFontFace Error: "), e);
 			process.exitCode = 1;
 		}
 
@@ -116,14 +116,14 @@ if( argv.subset ) {
 				subset.subsetAll( gh.getUnicodeRange() );
 			}
 		} catch(e) {
-			console.log(chalk.red("GlyphHangerSubset Error: "), e);
+			console.log(pc.red("GlyphHangerSubset Error: "), e);
 			process.exitCode = 1;
 		}
 
 		try {
 			fontface.output();
 		} catch(e) {
-			console.log(chalk.red("GlyphHangerFontFace Error: "), e);
+			console.log(pc.red("GlyphHangerFontFace Error: "), e);
 			process.exitCode = 1;
 		}
 	} else { // not using URLs
@@ -135,7 +135,7 @@ if( argv.subset ) {
 				subset.subsetAll( !whitelist.isEmpty() ? whitelist.getWhitelistAsUnicodes() : whitelist.getUniversalRangeAsUnicodes() );
 			} catch(e) {
 				process.exitCode = 1;
-				console.log(chalk.red("GlyphHangerSubset Error: "), e);
+				console.log(pc.red("GlyphHangerSubset Error: "), e);
 			}
 
 			try {
@@ -146,7 +146,7 @@ if( argv.subset ) {
 				fontface.output();
 			} catch(e) {
 				process.exitCode = 1;
-				console.log(chalk.red("GlyphHangerFontFace Error: "), e);
+				console.log(pc.red("GlyphHangerFontFace Error: "), e);
 			}
 		} else if( !whitelist.isEmpty() ) {
 			// not subsetting, just output the code points (can convert whitelist string to code points)
@@ -158,7 +158,7 @@ if( argv.subset ) {
 				fontface.output();
 			} catch(e) {
 				process.exitCode = 1;
-				console.log(chalk.red("GlyphHangerFontFace Error: "), e);
+				console.log(pc.red("GlyphHangerFontFace Error: "), e);
 			}
 		} else {
 			gh.outputHelp();

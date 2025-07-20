@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import pc from "picocolors";
 import path from "path";
 import fs from "fs";
 import * as jsdom from "jsdom";
@@ -43,7 +43,7 @@ class JSDOMEnvironment {
 
 		if( standardInput ) {
 			if( url ) {
-				console.log( chalk.yellow("A URL argument was passed but it was ignored. Using stdin instead.") );
+				console.log( pc.yellow("A URL argument was passed but it was ignored. Using stdin instead.") );
 			}
 			if(standardInput.charAt(0) !== "<") {
 				standardInput = `<!doctype html><html><title></title><body>${standardInput}</body></html>`;
@@ -128,7 +128,7 @@ class PuppeteerEnvironment {
 			let statusCode = response.status();
 
 			if ( statusCode !== 200 ) {
-				console.log(chalk.yellow(`Warning: ${url} had a non 200 HTTP status code: (${statusCode})`));
+				console.log(pc.yellow(`Warning: ${url} had a non 200 HTTP status code: (${statusCode})`));
 			}
 
 			page.on("console", function(msg) {
@@ -145,7 +145,7 @@ class PuppeteerEnvironment {
 
 			return page;
 		} catch(e) {
-			console.log(chalk.red(`Error with ${url}:`), e);
+			console.log(pc.red(`Error with ${url}:`), e);
 		}
 	}
 

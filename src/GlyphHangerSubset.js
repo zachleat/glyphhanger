@@ -3,7 +3,7 @@ import parsePath from "parse-filepath";
 import fs from "fs";
 import filesize from "filesize";
 import path from "path";
-import chalk from "chalk";
+import pc from "picocolors";
 import glob from "glob";
 import GlyphHangerFormat from "./GlyphHangerFormat.js";
 import createDebug from "debug";
@@ -138,11 +138,11 @@ class GlyphHangerSubset {
 		}
 
 		if( !unicodes ) {
-			console.log( chalk.yellow( "Warning: the unicode range for " + outputFilename + " was empty! Is your --family wrong? Was your URL empty?" ) );
+			console.log( pc.yellow( "Warning: the unicode range for " + outputFilename + " was empty! Is your --family wrong? Was your URL empty?" ) );
 		}
 		var inputStat = fs.statSync( inputFile );
 		var outputStat = fs.statSync( outputFullPath );
-		console.log( "Subsetting", inputFile, "to", outputFilename, "(was " + chalk.red( filesize( inputStat.size ) ) + ", now " + chalk.green( filesize( outputStat.size ) ) + ")" );
+		console.log( "Subsetting", inputFile, "to", outputFilename, "(was " + pc.red( filesize( inputStat.size ) ) + ", now " + pc.green( filesize( outputStat.size ) ) + ")" );
 	}
 }
 

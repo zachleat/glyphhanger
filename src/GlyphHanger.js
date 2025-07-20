@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import pc from "picocolors";
 import CharacterSet from "characterset";
 import WebServer from "./WebServer.js";
 import GlyphHangerWhitelist from "./GlyphHangerWhitelist.js";
@@ -169,7 +169,7 @@ class GlyphHanger {
 		}
 
 		if( failCount ) {
-			console.log( chalk.red( `${failCount} of ${urls.length} urls failed.` ) );
+			console.log( pc.red( `${failCount} of ${urls.length} urls failed.` ) );
 		}
 
 		await this.env.close();
@@ -228,7 +228,7 @@ class GlyphHanger {
 	outputHelp() {
 		var out = [];
 
-		out.push( chalk.red( "glyphhanger error: requires at least one URL or whitelist." ) );
+		out.push( pc.red( "glyphhanger error: requires at least one URL or whitelist." ) );
 		out.push( "" );
 		out.push( "usage: glyphhanger ./test.html" );
 		out.push( "       glyphhanger http://example.com" );

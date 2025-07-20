@@ -26,7 +26,6 @@
     },
     "dependencies": {
         "@zachleat/spider-pig": "^3.0.0",
-        "chalk": "^4.1.0",
         "characterset": "^1.3.0",
         "connect": "^3.7.0",
         "debug": "^4.4.1",
@@ -35,6 +34,7 @@
         "jsdom": "^15.2.1",
         "minimist": "^1.2.5",
         "parse-filepath": "^1.0.2",
+        "picocolors": "^1.1.1",
         "serve-static": "^1.14.1",
         "shelljs": "^0.10.0"
     },

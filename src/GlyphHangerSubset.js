@@ -1,7 +1,7 @@
 import shell from "shelljs";
 import parsePath from "parse-filepath";
 import fs from "fs";
-import filesize from "filesize";
+import {filesize} from "filesize";
 import path from "path";
 import pc from "picocolors";
 import glob from "glob";
@@ -142,7 +142,7 @@ class GlyphHangerSubset {
 		}
 		var inputStat = fs.statSync( inputFile );
 		var outputStat = fs.statSync( outputFullPath );
-		console.log( "Subsetting", inputFile, "to", outputFilename, "(was " + pc.red( filesize( inputStat.size ) ) + ", now " + pc.green( filesize( outputStat.size ) ) + ")" );
+		console.log( "Subsetting", inputFile, "to", outputFilename, "(was " + pc.red( filesize( inputStat.size, { standard: 'iec' } ) ) + ", now " + pc.green( filesize( outputStat.size, { standard: 'iec' } ) ) + ")" );
 	}
 }
 

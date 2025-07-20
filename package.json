@@ -30,13 +30,13 @@
         "connect": "^3.7.0",
         "debug": "^4.4.1",
         "filesize": "^11.0.2",
-        "glob": "^7.2.0",
         "jsdom": "^15.2.1",
         "minimist": "^1.2.5",
         "parse-filepath": "^1.0.2",
         "picocolors": "^1.1.1",
         "serve-static": "^1.14.1",
-        "shelljs": "^0.10.0"
+        "shelljs": "^0.10.0",
+        "tinyglobby": "^0.2.14"
     },
     "devDependencies": {
         "mocha": "^11.7.1"

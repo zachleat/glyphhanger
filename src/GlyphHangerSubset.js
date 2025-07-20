@@ -4,7 +4,7 @@ import fs from "fs";
 import {filesize} from "filesize";
 import path from "path";
 import pc from "picocolors";
-import glob from "glob";
+import {globSync} from "tinyglobby";
 import GlyphHangerFormat from "./GlyphHangerFormat.js";
 import createDebug from "debug";
 const debug = createDebug("glyphhanger:subset");
@@ -25,7 +25,7 @@ class GlyphHangerSubset {
 	}
 
 	setFontFilesGlob( ttfFilesGlob ) {
-		this.fontPaths = glob.sync( ttfFilesGlob );
+		this.fontPaths = globSync( ttfFilesGlob );
 	}
 
 	setFontFiles( ttfFontFiles ) {

@@ -23,7 +23,7 @@
 		this.win = win;
 	};
 
-	GH.prototype.init = function( contextNode, opts ) {
+	GH.prototype.init = function( contextNode, opts, isJSDOM = false ) {
 		opts = opts || {};
 		if( contextNode ) {
 			var nodes = Array.from(contextNode.getElementsByTagName("*"));
@@ -54,18 +54,22 @@
 					this.saveGlyphs( text, fontFamily );
 				}.bind( this ));
 
-				var beforeContent = this.getPseudoContent(node, ":before");
-				if( beforeContent ) {
-					var beforeFamily = this.getFontFamilyNameFromNode( node, ":before" );
-					// console.log( "(:before) font-family `" + beforeFamily + "` has text: ", beforeContent );
-					this.saveGlyphs(beforeContent, beforeFamily);
-				}
+				// JSDOM doesn't support pseudo-element selectors and will print a big ugly warning in the console
+				// whenever it encounters one
+				if (!isJSDOM) {
+					var beforeContent = this.getPseudoContent(node, ":before");
+					if( beforeContent ) {
+						var beforeFamily = this.getFontFamilyNameFromNode( node, ":before" );
+						// console.log( "(:before) font-family `" + beforeFamily + "` has text: ", beforeContent );
+						this.saveGlyphs(beforeContent, beforeFamily);
+					}
 
-				var afterContent = this.getPseudoContent(node, ":after");
-				if( afterContent ) {
-					var afterFamily = this.getFontFamilyNameFromNode( node, ":after" );
-					// console.log( "(:after) font-family `" + afterFamily + "` has text: ", afterContent );
-					this.saveGlyphs(afterContent, afterFamily);
+					var afterContent = this.getPseudoContent(node, ":after");
+					if( afterContent ) {
+						var afterFamily = this.getFontFamilyNameFromNode( node, ":after" );
+						// console.log( "(:after) font-family `" + afterFamily + "` has text: ", afterContent );
+						this.saveGlyphs(afterContent, afterFamily);
+					}
 				}
 			}.bind( this ));
 		}

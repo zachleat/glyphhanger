@@ -87,7 +87,7 @@ if(opts.className && opts.className !== "undefined") {
 }
 
 var hanger = new GlyphHanger();
-hanger.init( document.body, opts );
+hanger.init( document.body, opts, true );
 window.glyphhangerFinish(hanger.toJSON());
 `;
 		script.innerHTML = injectionString;

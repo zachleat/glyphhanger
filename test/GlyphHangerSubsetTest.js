@@ -1,5 +1,5 @@
-const assert = require( "assert" );
-const GlyphHangerSubset = require( "../src/GlyphHangerSubset" );
+import assert from "assert";
+import GlyphHangerSubset from "../src/GlyphHangerSubset.js";
 
 describe( "GlyphHangerSubset", function() {
 	it( "getFilenameFromTTFPath", function() {

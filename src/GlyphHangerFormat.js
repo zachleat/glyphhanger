@@ -13,4 +13,4 @@ GlyphHangerFormat.prototype.hasFormat = function( format ) {
 	return this.formats[ format ] === true;
 };
 
-module.exports = GlyphHangerFormat;
+export default GlyphHangerFormat;

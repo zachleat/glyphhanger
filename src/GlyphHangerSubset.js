@@ -1,12 +1,13 @@
-const shell = require( "shelljs" );
-const parsePath = require( "parse-filepath" );
-const fs = require( "fs" );
-const { filesize } = require( "filesize" );
-const path = require( "path" );
-const chalk = require( "chalk" );
-const glob = require( "glob" );
-const GlyphHangerFormat = require("./GlyphHangerFormat");
-const debug = require("debug")("glyphhanger:subset");
+import shell from "shelljs";
+import parsePath from "parse-filepath";
+import fs from "fs";
+import {filesize} from "filesize";
+import path from "path";
+import chalk from "chalk";
+import {glob} from "glob";
+import GlyphHangerFormat from "./GlyphHangerFormat.js";
+import createDebug from "debug";
+const debug = createDebug("glyphhanger:subset");
 
 class GlyphHangerSubset {
 	constructor() {
@@ -133,4 +134,4 @@ class GlyphHangerSubset {
 	}
 }
 
-module.exports = GlyphHangerSubset;
+export default GlyphHangerSubset;

@@ -1,4 +1,4 @@
-var CharacterSet = require( "characterset" );
+import CharacterSet from "characterset";
 
 class GlyphHangerWhitelist {
 
@@ -51,5 +51,4 @@ class GlyphHangerWhitelist {
 	}
 }
 
-
-module.exports = GlyphHangerWhitelist;
+export default GlyphHangerWhitelist;

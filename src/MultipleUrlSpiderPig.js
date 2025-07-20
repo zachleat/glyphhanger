@@ -1,7 +1,8 @@
-const WebServer = require("./WebServer");
-const SpiderPig = require("@zachleat/spider-pig");
-const debug = require("debug")("glyphhanger");
-const debugSpiderPig = require("debug")("glyphhanger:spiderpig");
+import WebServer from "./WebServer.js";
+import SpiderPig from "@zachleat/spider-pig";
+import createDebug from "debug";
+const debug = createDebug("glyphhanger");
+const debugSpiderPig = createDebug("glyphhanger:spiderpig");
 
 class MultipleSpiderPig {
 	constructor() {
@@ -76,4 +77,4 @@ class MultipleSpiderPig {
 	}
 }
 
-module.exports = MultipleSpiderPig;
+export default MultipleSpiderPig;

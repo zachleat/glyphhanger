@@ -1,13 +1,12 @@
-var assert = require( "assert" );
-var path = require( "path" );
-var childProcess = require( "child_process" );
+import assert from "assert";
+import path from "path";
+import childProcess from "child_process";
 
 describe( "CLI (pseudos)", function() {
 	it( "works with pseudo elements", function () {
 		this.timeout( 10000 );
-
-		let output = childProcess.execSync(`node cmd.js test/pseudos/test.html --json`, {
-			cwd: path.resolve(__dirname, "..")
+			let output = childProcess.execSync(`node cmd.js test/pseudos/test.html --json`, {
+			cwd: path.resolve(import.meta.dirname, "..")
 		});
 
 		let json = JSON.parse(output.toString().trim());

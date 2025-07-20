@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import minimist from "minimist";
 import chalk from "chalk";
-import getStdin from "get-stdin";
+import {text} from "stream/consumers";
 import GlyphHanger from "./src/GlyphHanger.js";
 import GlyphHangerWhitelist from "./src/GlyphHangerWhitelist.js";
 import GlyphHangerSubset from "./src/GlyphHangerSubset.js";
@@ -73,7 +73,7 @@ if( argv.subset ) {
 // glyphhanger --subset=*.ttf --output=dist/								(change the output directory for subset files)
 
 (async function() {
-	let standardInput = (await getStdin()).trim();
+	let standardInput = process.stdin.isTTY ? '' : (await text(process.stdin)).trim();
 	gh.setStandardInput(standardInput);
 
 	if( argv.version ) {

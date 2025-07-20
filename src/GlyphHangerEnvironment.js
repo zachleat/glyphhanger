@@ -3,7 +3,6 @@ import path from "path";
 import fs from "fs";
 import * as jsdom from "jsdom";
 import puppeteer from "puppeteer";
-import getStdin from "get-stdin";
 import WebServer from "./WebServer.js";
 import createDebug from "debug";
 import {fileURLToPath} from "url";

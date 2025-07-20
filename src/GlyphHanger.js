@@ -136,47 +136,49 @@ class GlyphHanger {
 	}
 
 	async fetchUrls( urls ) {
-		let failCount = 0;
-		if( !urls.length && this.standardInput ) {
-			if( !this.env.isJSDOM() ) {
-				throw new Error("Standard input mode requires using --jsdom");
-			}
-			let result = await this._fetchUrl();
-			if( result === false ) {
-				failCount++;
-			}
-		} else {
-			for( let url of urls ) {
-				debug("WebServer.isValidUrl(%o)", url);
-
-				let urlStr = url;
-				if(this.env.requiresWebServer()) {
-					if(!WebServer.isValidUrl(url) || url.indexOf('http://localhost:') === 0 ) {
-						if( !this.staticServer ) {
-							debug("Creating static server");
-							this.staticServer = await WebServer.getStaticServer();
-						}
-					}
-
-					urlStr = WebServer.getUrl(url);
+		try {
+			let failCount = 0;
+			if( !urls.length && this.standardInput ) {
+				if( !this.env.isJSDOM() ) {
+					throw new Error("Standard input mode requires using --jsdom");
 				}
-
-				let result = await this._fetchUrl(urlStr);
+				let result = await this._fetchUrl();
 				if( result === false ) {
 					failCount++;
 				}
+			} else {
+				for( let url of urls ) {
+					debug("WebServer.isValidUrl(%o)", url);
+
+					let urlStr = url;
+					if(this.env.requiresWebServer()) {
+						if(!WebServer.isValidUrl(url) || url.indexOf('http://localhost:') === 0 ) {
+							if( !this.staticServer ) {
+								debug("Creating static server");
+								this.staticServer = await WebServer.getStaticServer();
+							}
+						}
+
+						urlStr = WebServer.getUrl(url);
+					}
+
+					let result = await this._fetchUrl(urlStr);
+					if( result === false ) {
+						failCount++;
+					}
+				}
 			}
-		}
 
-		if( failCount ) {
-			console.log( pc.red( `${failCount} of ${urls.length} urls failed.` ) );
-		}
+			if( failCount ) {
+				console.log( pc.red( `${failCount} of ${urls.length} urls failed.` ) );
+			}
+		} finally {
+			await this.env.close();
 
-		await this.env.close();
-
-		if(this.env.requiresWebServer()) {
-			debug("Closing static server");
-			WebServer.close(this.staticServer);
+			if(this.env.requiresWebServer()) {
+				debug("Closing static server");
+				WebServer.close(this.staticServer);
+			}
 		}
 	}
 

@@ -35,24 +35,27 @@ class MultipleSpiderPig {
 	}
 
 	async fetchUrls(urls) {
-		let piggy = await this.getPiggy();
+		try {
+			let piggy = await this.getPiggy();
 
-		for( let url of urls ) {
-			if(!WebServer.isValidUrl(url)) {
-				if( !this.staticServer ) {
-					debugSpiderPig("Creating static server");
-					this.staticServer = await WebServer.getStaticServer();
+			for( let url of urls ) {
+				if(!WebServer.isValidUrl(url)) {
+					if( !this.staticServer ) {
+						debugSpiderPig("Creating static server");
+						this.staticServer = await WebServer.getStaticServer();
+					}
 				}
-			}
-			url = WebServer.getUrl(url);
+				url = WebServer.getUrl(url);
 
-			debug("fetching %o", url);
-			this.addUrls([url]);
-			this.addUrls(await piggy.fetchLocalUrls(url));
+				debug("fetching %o", url);
+				this.addUrls([url]);
+				this.addUrls(await piggy.fetchLocalUrls(url));
+			}
+		} finally {
+			debugSpiderPig("Closing static server");
+			WebServer.close(this.staticServer);
 		}
 
-		debugSpiderPig("Closing static server");
-		WebServer.close(this.staticServer);
 	}
 
 	getUrlsWithLimit() {

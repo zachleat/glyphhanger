@@ -10,18 +10,6 @@ Available on [npm](https://www.npmjs.com/package/glyphhanger).
 npm install -g glyphhanger
 ```
 
-```sh
-pip install fonttools
-```
-
-```sh
-# Additional installation for --flavor=woff2
-pip install brotli
-
-# Additional installation for --flavor=woff --with-zopfli
-pip install zopfli
-```
-
 If you want to read an in-depth tutorial on the installation steps above, please read [How I set up Glyphhanger on macOS for optimizing and converting font files for the Web](https://www.sarasoueidan.com/blog/glyphhanger/) by Sara Soueidan.
 
 ## Usage
@@ -75,7 +63,6 @@ Use `--subset=*.ttf` to select some font files for subsetting.
 > glyphhanger --subset=*.ttf
 
 Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.ttf (was 145.06 KB, now 70.25 KB)
-Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.zopfli.woff (was 145.06 KB, now 36.51 KB)
 Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.woff2 (was 145.06 KB, now 28.73 KB)
 ```
 
@@ -85,7 +72,6 @@ Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.woff2 (was 145.06 K
 > glyphhanger --whitelist=ABCD --subset=*.ttf
 
 Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.ttf (was 145.06 KB, now 4.42 KB)
-Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.zopfli.woff (was 145.06 KB, now 2.84 KB)
 Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.woff2 (was 145.06 KB, now 2.24 KB)
 ```
 
@@ -95,7 +81,6 @@ Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.woff2 (was 145.06 K
 > glyphhanger ./test.html --subset=*.ttf
 
 Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.ttf (was 145.06 KB, now 24 KB)
-Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.zopfli.woff (was 145.06 KB, now 14.34 KB)
 Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.woff2 (was 145.06 KB, now 11.37 KB)
 ```
 
@@ -105,13 +90,12 @@ Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.woff2 (was 145.06 K
 > glyphhanger ./test.html --subset=*.ttf --family='Lato,sans-serif'
 
 Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.ttf (was 145.06 KB, now 24 KB)
-Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.zopfli.woff (was 145.06 KB, now 14.34 KB)
 Subsetting LatoLatin-Regular.ttf to LatoLatin-Regular-subset.woff2 (was 145.06 KB, now 11.37 KB)
 ```
 
 #### Specify the formats to output
 
-Available formats: `ttf,woff,woff-zopfli,woff2`.
+Available formats: `ttf,woff,woff2`.
 
 ```sh
 > glyphhanger --whitelist=ABCD --formats=woff2,woff --subset=*.ttf

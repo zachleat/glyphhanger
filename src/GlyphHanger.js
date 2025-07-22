@@ -252,8 +252,8 @@ class GlyphHanger {
 		out.push( "       Output a @font-face block for the current data." );
 		out.push( "  --subset=*.ttf" );
 		out.push( "       Automatically subsets one or more font files uisng HarfBuzz." );
-		out.push( "  --formats=ttf,woff,woff2,woff-zopfli" );
-		out.push( "       woff2 requires brotli, woff-zopfli requires zopfli" );
+		out.push( "  --formats=ttf,woff,woff2" );
+		out.push( "       Specify the output font formats. Default formats are ttf and woff2." );
 		out.push( "" );
 		out.push( "  --spider" );
 		out.push( "       Gather local URLs from the main page and navigate those URLs." );

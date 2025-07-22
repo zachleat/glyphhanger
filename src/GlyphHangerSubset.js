@@ -60,9 +60,7 @@ class GlyphHangerSubset {
 		if( this.formats.hasFormat( "woff2" ) ) {
 			srcs.woff2 = this.getPath(this.getFilenameFromTTFPath(ttfPath, "woff2"), dir);
 		}
-		if( this.formats.hasFormat( "woff-zopfli" ) ) {
-			srcs.woff = this.getPath(this.getFilenameFromTTFPath(ttfPath, "woff", true), dir);
-		} else if( this.formats.hasFormat( "woff" ) ) {
+		if( this.formats.hasFormat( "woff" ) ) {
 			srcs.woff = this.getPath(this.getFilenameFromTTFPath(ttfPath, "woff"), dir);
 		}
 		if( this.formats.hasFormat( "ttf" ) ) {
@@ -79,18 +77,15 @@ class GlyphHangerSubset {
 		if( this.formats.hasFormat( "woff" ) ) {
 			files.push(this.getPath(this.getFilenameFromTTFPath(ttfPath, "woff"), dir));
 		}
-		if( this.formats.hasFormat( "woff-zopfli" ) ) {
-			files.push(this.getPath(this.getFilenameFromTTFPath(ttfPath, "woff", true), dir));
-		}
 		if( this.formats.hasFormat( "woff2" ) ) {
 			files.push(this.getPath(this.getFilenameFromTTFPath(ttfPath, "woff2"), dir));
 		}
 		return files;
 	}
 
-	getFilenameFromTTFPath( ttfPath, format, useZopfli ) {
+	getFilenameFromTTFPath( ttfPath, format ) {
 		var fontPath = parsePath( ttfPath );
-		var outputFilename = fontPath.name + "-subset" + ( useZopfli ? ".zopfli" : "" ) + ( format ? "." + format : fontPath.ext );
+		var outputFilename = fontPath.name + "-subset" + ( format ? "." + format : fontPath.ext );
 		return outputFilename;
 	}
 
@@ -104,7 +99,7 @@ class GlyphHangerSubset {
 		return `Subsetting ${inputFile} to ${outputFile} (was ${pc.red( filesize( inputSize, { standard: 'iec' } ) )}, now ${pc.green( filesize( outputSize, { standard: 'iec' } ) )})`;
 	}
 
-	async subset( inputFile, unicodes, useZopfli ) {
+	async subset( inputFile, unicodes ) {
 		let ranges = CharacterSet.parseUnicodeRange(unicodes).toRange();
 		let outputDir = this.outputDirectory || parsePath( inputFile ).dir;
 
@@ -131,15 +126,9 @@ class GlyphHangerSubset {
 			}));
 		}
 
-		if (this.formats.hasFormat('woff-zopfli')) {
-			let outputFilename = path.join( outputDir, this.getFilenameFromTTFPath( inputFile, 'woff', true ) );
+		if (this.formats.hasFormat('woff')) {
+			let outputFilename = path.join( outputDir, this.getFilenameFromTTFPath( inputFile, 'woff' ) );
 			promises.push(this.woffCtx.compressFromTTF(subsettedFont.data, 'woff', 15).then(async compressedData => {
-				await fs.writeFile(outputFilename, compressedData);
-				return this.logSubsetInfo(inputFile, inputSize, outputFilename, compressedData.length );
-			}));
-		} else if (this.formats.hasFormat('woff')) {
-			let outputFilename = path.join( outputDir, this.getFilenameFromTTFPath( inputFile, 'woff', false ) );
-			promises.push(this.woffCtx.compressFromTTF(subsettedFont.data, 'woff', 1).then(async compressedData => {
 				await fs.writeFile(outputFilename, compressedData);
 				return this.logSubsetInfo(inputFile, inputSize, outputFilename, compressedData.length );
 			}));

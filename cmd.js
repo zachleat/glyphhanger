@@ -30,14 +30,16 @@ if( argv.jsdom ) {
 	gh.setEnvironmentJSDOM();
 }
 
-var subset = new GlyphHangerSubset();
-subset.setOutputDirectory(argv.output);
-
-if( argv.formats ) {
-	subset.setFormats( argv.formats );
-}
 if( argv.subset ) {
-	subset.setFontFilesGlob( argv.subset );
+	var subset = new GlyphHangerSubset();
+	subset.setOutputDirectory(argv.output);
+
+	if( argv.formats ) {
+		subset.setFormats( argv.formats );
+	}
+	if( argv.subset ) {
+		subset.setFontFilesGlob( argv.subset );
+	}
 }
 
 var fontface = new GlyphHangerFontFace();
@@ -72,7 +74,7 @@ if( argv.subset ) {
 // glyphhanger --subset=*.ttf --family='My Serif' -css			(subset group of fonts to results for specific family and a font-face block)
 // glyphhanger --subset=*.ttf --output=dist/								(change the output directory for subset files)
 
-(async function() {
+async function main() {
 	let standardInput = process.stdin.isTTY ? '' : (await text(process.stdin)).trim();
 	gh.setStandardInput(standardInput);
 
@@ -113,7 +115,7 @@ if( argv.subset ) {
 
 		try {
 			if( argv.subset ) {
-				subset.subsetAll( gh.getUnicodeRange() );
+				await subset.subsetAll( gh.getUnicodeRange() );
 			}
 		} catch(e) {
 			console.log(pc.red("GlyphHangerSubset Error: "), e);
@@ -132,7 +134,7 @@ if( argv.subset ) {
 
 			try {
 				// --subset with or without --whitelist
-				subset.subsetAll( !whitelist.isEmpty() ? whitelist.getWhitelistAsUnicodes() : whitelist.getUniversalRangeAsUnicodes() );
+				await subset.subsetAll( !whitelist.isEmpty() ? whitelist.getWhitelistAsUnicodes() : whitelist.getUniversalRangeAsUnicodes() );
 			} catch(e) {
 				process.exitCode = 1;
 				console.log(pc.red("GlyphHangerSubset Error: "), e);
@@ -165,4 +167,14 @@ if( argv.subset ) {
 		}
 
 	}
-})();
+}
+
+(async () => {
+	try {
+		await main();
+	} finally {
+		if (subset) {
+			subset.close();
+		}
+	}
+})()

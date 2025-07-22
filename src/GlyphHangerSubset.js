@@ -1,6 +1,9 @@
 import shell from "shelljs";
+import {GlyphtContext} from "@glypht/core/subsetting.js";
+import {WoffCompressionContext} from "@glypht/core/compression.js";
+import CharacterSet from 'characterset';
 import parsePath from "parse-filepath";
-import fs from "fs";
+import fs from "fs/promises";
 import {filesize} from "filesize";
 import path from "path";
 import pc from "picocolors";
@@ -12,6 +15,8 @@ const debug = createDebug("glyphhanger:subset");
 class GlyphHangerSubset {
 	constructor() {
 		this.formats = new GlyphHangerFormat();
+		this.ctx = new GlyphtContext();
+		this.woffCtx = new WoffCompressionContext();
 	}
 
 	setOutputDirectory( outputDir ) {
@@ -89,60 +94,74 @@ class GlyphHangerSubset {
 		return outputFilename;
 	}
 
-	subsetAll( unicodes, formats ) {
-		this.fontPaths.forEach(function( fontPath ) {
-			if( this.formats.hasFormat( "ttf" ) ) {
-				this.subset( fontPath, unicodes );
-			}
-			if( this.formats.hasFormat( "woff" ) ) {
-				this.subset( fontPath, unicodes, "woff", false );
-			}
-			if( this.formats.hasFormat( "woff-zopfli" ) ) {
-				this.subset( fontPath, unicodes, "woff", true );
-			}
-			if( this.formats.hasFormat( "woff2" ) ) {
-				this.subset( fontPath, unicodes, "woff2" );
-			}
-		}.bind( this ));
+	async subsetAll( unicodes ) {
+		return Promise.all(this.fontPaths.map( fontPath => {
+			return this.subset( fontPath, unicodes );
+		}));
 	}
 
-	subset( inputFile, unicodes, format, useZopfli ) {
-		var outputFilename = this.getFilenameFromTTFPath( inputFile, format, useZopfli );
-		var outputDir = this.outputDirectory || parsePath( inputFile ).dir;
-		var outputFullPath = path.join( outputDir, outputFilename );
-		var cmd = [ "pyftsubset" ];
-		cmd.push( "\"" + inputFile + "\"" );
-		cmd.push( "--output-file=\"" + outputFullPath + "\"" );
-		cmd.push( "--unicodes=" + unicodes );
-		cmd.push( "--layout-features='*'" );
-		if( format ) {
-			format = format.toLowerCase();
+	logSubsetInfo( inputFile, inputSize, outputFile, outputSize ) {
+		return `Subsetting ${inputFile} to ${outputFile} (was ${pc.red( filesize( inputSize, { standard: 'iec' } ) )}, now ${pc.green( filesize( outputSize, { standard: 'iec' } ) )})`;
+	}
 
-			cmd.push( "--flavor=" + format );
+	async subset( inputFile, unicodes, useZopfli ) {
+		let ranges = CharacterSet.parseUnicodeRange(unicodes).toRange();
+		let outputDir = this.outputDirectory || parsePath( inputFile ).dir;
 
-			if( format === "woff" && useZopfli ) {
-				cmd.push( "--with-zopfli" );
-			}
+		let inputData = new Uint8Array(await fs.readFile(inputFile));
+		let inputSize = inputData.length; // cache because this arraybuffer will be transferred
+		let fonts = await this.ctx.loadFonts([inputData], true);
+		if( fonts.length > 1 ) {
+			throw new Error(`${inputFile} is a font collection`);
+		}
+		let font = fonts[0];
+		let features = {};
+		// Keep all layout features
+		for (let feature of font.features) {
+			features[feature.tag] = true;
+		}
+		let subsettedFont = await font.subset({features, unicodeRanges: {named: [], custom: ranges}, axisValues: []});
+
+		let promises = [];
+
+		if (this.formats.hasFormat('ttf')) {
+			let outputFilename = path.join( outputDir, this.getFilenameFromTTFPath( inputFile, 'ttf' ) );
+			promises.push(fs.writeFile(outputFilename, subsettedFont.data).then(() => {
+				return this.logSubsetInfo(inputFile, inputSize, outputFilename, subsettedFont.data.length );
+			}));
 		}
 
-		if( !shell.which( "pyftsubset" ) ) {
-			console.log( "`pyftsubset` from fonttools is required for the --subset feature." );
-			shell.exit(1);
+		if (this.formats.hasFormat('woff-zopfli')) {
+			let outputFilename = path.join( outputDir, this.getFilenameFromTTFPath( inputFile, 'woff', true ) );
+			promises.push(this.woffCtx.compressFromTTF(subsettedFont.data, 'woff', 15).then(async compressedData => {
+				await fs.writeFile(outputFilename, compressedData);
+				return this.logSubsetInfo(inputFile, inputSize, outputFilename, compressedData.length );
+			}));
+		} else if (this.formats.hasFormat('woff')) {
+			let outputFilename = path.join( outputDir, this.getFilenameFromTTFPath( inputFile, 'woff', false ) );
+			promises.push(this.woffCtx.compressFromTTF(subsettedFont.data, 'woff', 1).then(async compressedData => {
+				await fs.writeFile(outputFilename, compressedData);
+				return this.logSubsetInfo(inputFile, inputSize, outputFilename, compressedData.length );
+			}));
 		}
 
-		debug("command: %o", cmd.join( " " ));
-
-		if( shell.exec( cmd.join( " " ) ).code !== 0 ) {
-			shell.echo( "Error: pyftsubset command failed (" + cmd.join( " " ) + ")." );
-			shell.exit(1);
+		if (this.formats.hasFormat('woff2')) {
+			let outputFilename = path.join( outputDir, this.getFilenameFromTTFPath( inputFile, 'woff2' ) );
+			promises.push(this.woffCtx.compressFromTTF(subsettedFont.data, 'woff2', 11).then(async compressedData => {
+				await fs.writeFile(outputFilename, compressedData);
+				return this.logSubsetInfo(inputFile, inputSize, outputFilename, compressedData.length );
+			}));
 		}
 
-		if( !unicodes ) {
-			console.log( pc.yellow( "Warning: the unicode range for " + outputFilename + " was empty! Is your --family wrong? Was your URL empty?" ) );
+		// Glypht can compress on multiple cores at once, so this provides a speedup
+		for (const message of await Promise.all(promises)) {
+			console.log(message);
 		}
-		var inputStat = fs.statSync( inputFile );
-		var outputStat = fs.statSync( outputFullPath );
-		console.log( "Subsetting", inputFile, "to", outputFilename, "(was " + pc.red( filesize( inputStat.size, { standard: 'iec' } ) ) + ", now " + pc.green( filesize( outputStat.size, { standard: 'iec' } ) ) + ")" );
+	}
+
+	close() {
+		this.ctx.destroy();
+		this.woffCtx.destroy();
 	}
 }
 

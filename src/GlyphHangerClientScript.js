@@ -1,14 +1,7 @@
-(function( root, factory ) {
-		if( typeof exports === "object" && typeof exports.nodeName !== "string" ) {
-			// CommonJS
-			module.exports = factory( require( "characterset" ) );
-		} else {
-			// Browser
-			root.GlyphHanger = factory( root.CharacterSet );
-		}
-}( this, function( CharacterSet ) {
+import CharacterSet from "characterset";
 
-	var GH = function() {
+export default class GH {
+	constructor() {
 		this.globalSet = new CharacterSet();
 		this.fontFamilySets = {};
 		this.displayFontFamilyNames = {};
@@ -17,13 +10,13 @@
 		if( typeof window !== "undefined" ) {
 			this.win = window;
 		}
-	};
+	}
 
-	GH.prototype.setEnv = function(win) {
+	setEnv(win) {
 		this.win = win;
 	};
 
-	GH.prototype.init = function( contextNode, opts, isJSDOM = false ) {
+	init( contextNode, opts, isJSDOM = false ) {
 		opts = opts || {};
 		if( contextNode ) {
 			var nodes = Array.from(contextNode.getElementsByTagName("*"));
@@ -75,7 +68,7 @@
 		}
 	};
 
-	GH.prototype.getPseudoContent = function(node, pseudo) {
+	getPseudoContent(node, pseudo) {
 		if(!pseudo) {
 			return;
 		}
@@ -83,7 +76,7 @@
 	};
 
 	// TODO resolve keywords when not string content
-	GH.prototype.removeQuotes = function(text, requireQuotes) {
+	removeQuotes(text, requireQuotes) {
 		if( text.indexOf("'") === 0 ) {
 			// using single quotes
 			return text.replace(/[\']/g, "");
@@ -97,7 +90,7 @@
 		}
 	};
 
-	GH.prototype.getFontFamilyName = function(fontFamilyList) {
+	getFontFamilyName(fontFamilyList) {
 		if( !fontFamilyList ) {
 			return "";
 		}
@@ -113,7 +106,7 @@
 		return split.length ? split[0] : "";
 	};
 
-	GH.prototype.getFontFamilyNameFromNode = function(node, pseudo) {
+	getFontFamilyNameFromNode(node, pseudo) {
 		var context = node;
 		if( node.nodeType === 3 ) {
 			context = node.parentNode;
@@ -127,7 +120,7 @@
 		return this.getFontFamilyName( fontFamilyList );
 	};
 
-	GH.prototype.fakeInnerText = function( node ) {
+	fakeInnerText( node ) {
 		var value = node.nodeValue.trim();
 
 		if( node.nodeType !== 3 ) {
@@ -156,18 +149,18 @@
 		return value;
 	};
 
-	GH.prototype.getNodeValue = function( node ) {
+	getNodeValue( node ) {
 		var innerText = this.fakeInnerText( node );
 		// console.log( "innerText:", node.innerText );
 		// console.log( "fakeInnerText:", innerText );
 		return node.innerText || innerText || "";
 	};
 
-	GH.prototype.hasValue = function( node ) {
+	hasValue( node ) {
 		return (node.innerText || node.nodeValue).trim().length > 0;
 	};
 
-	GH.prototype.getTextNodeChildren = function( node ) {
+	getTextNodeChildren( node ) {
 		// modified from http://stackoverflow.com/questions/10730309/find-all-text-nodes-in-html-page
 		var all = [];
 		var node;
@@ -179,7 +172,7 @@
 		return all;
 	};
 
-	GH.prototype.saveGlyphs = function( text, fontFamily ) {
+	saveGlyphs( text, fontFamily ) {
 		var set = new CharacterSet( text );
 		this.globalSet = this.globalSet.union( set );
 
@@ -193,23 +186,23 @@
 		}
 	};
 
-	GH.prototype.getFamilySet = function(fontFamily) {
+	getFamilySet(fontFamily) {
 		return fontFamily in this.fontFamilySets ? this.fontFamilySets[ fontFamily ] : new CharacterSet();
 	};
 
-	GH.prototype.getGlyphs = function() {
+	getGlyphs() {
 		return this.globalSet.toArray();
 	};
 
-	GH.prototype.toString = function() {
+	toString() {
 		return this.globalSet.toString();
 	};
 
-	GH.prototype.toJSONString = function() {
+	toJSONString() {
 		return JSON.stringify(this.toJSON());
 	};
 
-	GH.prototype.toJSON = function() {
+	toJSON() {
 		var obj = {};
 		for( var family in this.fontFamilySets ) {
 			obj[this.displayFontFamilyNames[family]] = this.fontFamilySets[family].toArray();
@@ -218,6 +211,4 @@
 
 		return obj;
 	};
-
-	return GH;
-}));
+}

@@ -9,23 +9,7 @@ import {fileURLToPath} from "url";
 const { JSDOM } = jsdom;
 const debugNodes = createDebug("glyphhanger:nodes");
 
-class EnvironmentScripts {
-	constructor() {
-		this.charactersetPath = fileURLToPath(import.meta.resolve("characterset"));
-		this.glyphhangerPath = fileURLToPath(import.meta.resolve("../src/glyphhanger-script.js"));
-	}
-
-	async read() {
-		this.characterset = await fsp.readFile(this.charactersetPath, "utf8");
-		this.glyphhanger = await fsp.readFile(this.glyphhangerPath, "utf8");
-	}
-}
-
 class JSDOMEnvironment {
-	constructor() {
-		this.scripts = new EnvironmentScripts();
-	}
-
 	requiresWebServer() {
 		return false;
 	}
@@ -63,7 +47,8 @@ class JSDOMEnvironment {
 	}
 
 	async getResults(page, options) {
-		await this.scripts.read();
+		const scriptPath = fileURLToPath(import.meta.resolve("../generated/glyphhanger-script.umd.js"));
+		const scriptContents = await fsp.readFile(scriptPath, "utf-8");
 
 		let window = page.window;
 		let prom = new Promise((resolve, reject) => {
@@ -73,8 +58,7 @@ class JSDOMEnvironment {
 		});
 
 		let script = window.document.createElement("script");
-		let injectionString = `${this.scripts.characterset}
-${this.scripts.glyphhanger}
+		let injectionString = `${scriptContents}
 let opts = ${JSON.stringify(options)};
 if(opts.className && opts.className !== "undefined") {
 	// add to both the documentElement and document.body because why not
@@ -85,7 +69,7 @@ if(opts.className && opts.className !== "undefined") {
 	}
 }
 
-var hanger = new GlyphHanger();
+var hanger = new GlyphHanger.default();
 hanger.init( document.body, opts, true );
 window.glyphhangerFinish(hanger.toJSON());
 `;
@@ -135,11 +119,7 @@ class PuppeteerEnvironment {
 			});
 
 			await page.addScriptTag({
-				path: fileURLToPath(import.meta.resolve("characterset"))
-			});
-
-			await page.addScriptTag({
-				path: fileURLToPath(import.meta.resolve("../src/glyphhanger-script.js"))
+				path: fileURLToPath(import.meta.resolve("../generated/glyphhanger-script.umd.js"))
 			});
 
 			return page;
@@ -164,7 +144,7 @@ class PuppeteerEnvironment {
 				}
 			}
 
-			var hanger = new GlyphHanger();
+			var hanger = new GlyphHanger.default();
 			hanger.init( document.body, opts );
 
 			return hanger.toJSON();

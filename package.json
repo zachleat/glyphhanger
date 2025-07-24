@@ -27,7 +27,7 @@
     "dependencies": {
         "@glypht/core": "^0.0.2",
         "@zachleat/spider-pig": "^3.0.0",
-        "characterset": "^1.3.0",
+        "characterset": "^2.0.0",
         "connect": "^3.7.0",
         "debug": "^4.4.1",
         "filesize": "^11.0.2",
@@ -40,6 +40,7 @@
         "tinyglobby": "^0.2.14"
     },
     "devDependencies": {
+        "esbuild": "^0.25.8",
         "mocha": "^11.7.1"
     }
 }

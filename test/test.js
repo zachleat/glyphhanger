@@ -1,7 +1,7 @@
 import assert from "assert";
 import * as jsdom from "jsdom";
 import GlyphHanger from "../src/GlyphHanger.js";
-import * as GlyphHangerScript from "../src/glyphhanger-script.js";
+import GlyphHangerScript from "../src/GlyphHangerClientScript.js";
 const { JSDOM } = jsdom;
 const window = (new JSDOM(`<!doctype html><html><body></body></html>`)).window;
 const document = window.document;

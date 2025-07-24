@@ -2,6 +2,7 @@ import assert from "assert";
 import path from "path";
 import childProcess from "child_process";
 import fs from "fs";
+import {fileURLToPath} from "url";
 
 // TODO glyphhanger --subset=*.ttf																(file format conversion)
 // DONE glyphhanger --subset=*.ttf --whitelist=ABCD								(reduce to whitelist characters)
@@ -20,7 +21,7 @@ describe( "CLI (subset)", function() {
 		var fontPath = "test/fonts/sourcesanspro-regular.ttf";
 
 		let output = childProcess.execSync(`node cmd.js --whitelist=ABC --subset=${fontPath} --formats=ttf`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		var subsetPath = fontPath.split( ".ttf" ).join( "-subset.ttf" );
@@ -40,7 +41,7 @@ describe( "CLI (subset)", function() {
 		var fontPath = "test/fonts/sourcesanspro-regular.ttf";
 
 		let output = childProcess.execSync(`node cmd.js --whitelist=ABC --subset=${fontPath} --formats=ttf --css`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		var subsetPath = fontPath.split( ".ttf" ).join( "-subset.ttf" );

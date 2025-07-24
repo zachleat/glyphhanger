@@ -8,7 +8,7 @@ describe( "CLI (version, help)", function() {
 	it( "outputs version", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js --version`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		const pkg = JSON.parse ( fs.readFileSync( fileURLToPath( import.meta.resolve( "../package.json" ) ) ) );
@@ -18,7 +18,7 @@ describe( "CLI (version, help)", function() {
 	it( "outputs help with --help", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js --help`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.ok( output.toString().indexOf("usage: glyphhanger") > -1 );
@@ -27,7 +27,7 @@ describe( "CLI (version, help)", function() {
 	it( "outputs help (no arguments)", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.ok( output.toString().indexOf("usage: glyphhanger") > -1 );
@@ -39,7 +39,7 @@ describe( "CLI (urls)", function() {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/multiple/one.html`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.equal( output.toString().trim(), "U+61-63" );
@@ -48,7 +48,7 @@ describe( "CLI (urls)", function() {
 	it( "can use multiple urls", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js test/multiple/one.html test/multiple/two.html`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.equal( output.toString().trim(), "U+61-66" );
@@ -57,7 +57,7 @@ describe( "CLI (urls)", function() {
 	it( "can use spider", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js test/urls/root.html --spider`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.equal( output.toString().trim(), "U+41-47" );
@@ -66,7 +66,7 @@ describe( "CLI (urls)", function() {
 	it( "can use spider with limit", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js test/urls/root.html --spider-limit=2`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.equal( output.toString().trim(), "U+41-44" );
@@ -76,7 +76,7 @@ describe( "CLI (urls)", function() {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/test-emoji.html`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.deepEqual( output.toString().trim(), "U+31-34,U+41-44,U+1F4A9");
@@ -86,7 +86,7 @@ describe( "CLI (urls)", function() {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/test-emoji.txt`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.deepEqual( output.toString().trim(), "U+31-34,U+41-44,U+1F4A9");
@@ -96,7 +96,7 @@ describe( "CLI (urls)", function() {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/json/families.html --json`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		let json = JSON.parse(output.toString().trim());
@@ -112,7 +112,7 @@ describe( "CLI (urls)", function() {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/json/families.html --family`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		let json = JSON.parse(output.toString().trim());
@@ -128,7 +128,7 @@ describe( "CLI (urls)", function() {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/json/families.html --family='A Web Font'`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.deepEqual( output.toString().trim(), "U+67-69" );
@@ -138,7 +138,7 @@ describe( "CLI (urls)", function() {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/json/families.html --family='A Web Font, monospace'`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.deepEqual( output.toString().trim(), "U+64-69" );
@@ -149,7 +149,7 @@ describe( "CLI (whitelist)", function() {
 	it( "--whitelist without other arguments (outputs range)", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js --whitelist=ABCD`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.equal( output.toString().trim(), "U+41-44" );
@@ -158,7 +158,7 @@ describe( "CLI (whitelist)", function() {
 	it( "--whitelist --string (outputs string)", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js --whitelist=ABCD --string`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.equal( output.toString().trim(), "ABCD" );
@@ -167,7 +167,7 @@ describe( "CLI (whitelist)", function() {
 	it( "--US_ASCII (outputs code points)", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js --US_ASCII`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.equal( output.toString().trim(), "U+20-7E" );
@@ -176,7 +176,7 @@ describe( "CLI (whitelist)", function() {
 	it( "--whitelist --US_ASCII (outputs code points)", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js --whitelist=ABCD --US_ASCII`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.equal( output.toString().trim(), "U+20-7E" );
@@ -185,7 +185,7 @@ describe( "CLI (whitelist)", function() {
 	it( "--whitelist='Unicode Range' --US_ASCII (outputs code points)", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js --whitelist="U+09" --US_ASCII`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.equal( output.toString().trim(), "U+9,U+20-7E" );
@@ -196,7 +196,7 @@ describe( "CLI (css)", function() {
 	it( "--css --whitelist='Unicode Range'", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js --whitelist="U+09" --css`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.ok( output.toString().indexOf(`@font-face {
@@ -207,7 +207,7 @@ describe( "CLI (css)", function() {
 	it( "--css --whitelist='String'", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js --whitelist="abcd" --css`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.ok( output.toString().indexOf(`@font-face {
@@ -219,7 +219,7 @@ describe( "CLI (css)", function() {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/multiple/one.html --css`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.ok( output.toString().indexOf(`@font-face {
@@ -231,7 +231,7 @@ describe( "CLI (css)", function() {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/json/families.html --family='A Web Font, monospace' --css`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.ok( output.toString().indexOf(`@font-face {
@@ -244,7 +244,7 @@ describe( "CLI (css)", function() {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/test-onlyVisible.html --onlyVisible`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.equal( output.toString().trim(), "U+31-34" );
@@ -254,7 +254,7 @@ describe( "CLI (css)", function() {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/test-cssSelector.html --cssSelector="pre"`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.equal( output.toString().trim(), "U+20,U+61,U+63,U+65,U+67-69,U+6D-70,U+73,U+74" );
@@ -264,7 +264,7 @@ describe( "CLI (css)", function() {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/test-cssSelectorVisible.html --cssSelector="pre" --onlyVisible`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.equal( output.toString().trim(), "U+20,U+61,U+63,U+65,U+67-69,U+6D-70,U+73,U+74" );
@@ -273,7 +273,7 @@ describe( "CLI (css)", function() {
 	it( "System input and --jsdom", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`echo "<b>ih</b>" | node cmd.js --jsdom --string`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.equal( output.toString().trim(), "hi" );
@@ -282,7 +282,7 @@ describe( "CLI (css)", function() {
 	it( "System input and --jsdom (not HTML, gets transformed to HTML for JSDOM)", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`echo "ih" | node cmd.js --jsdom --string`, {
-			cwd: path.resolve(import.meta.dirname, "..")
+			cwd: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 		});
 
 		assert.equal( output.toString().trim(), "hi" );

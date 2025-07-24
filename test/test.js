@@ -13,7 +13,7 @@ describe( "GlyphHanger Injected Script Tests", function() {
 
 		var ghs = new GlyphHangerScript();
 		ghs.setEnv(window);
-		ghs.init( div );
+		ghs.init( div, {}, true );
 
 		it( "should match", function() {
 			assert.equal( ghs.toString(), "abc" );
@@ -26,7 +26,7 @@ describe( "GlyphHanger Injected Script Tests", function() {
 
 		var ghs = new GlyphHangerScript();
 		ghs.setEnv(window);
-		ghs.init( div );
+		ghs.init( div, {}, true );
 
 		it( "should match", function() {
 			assert.equal( ghs.toString(), "bcd" );
@@ -39,7 +39,7 @@ describe( "GlyphHanger Injected Script Tests", function() {
 
 		var ghs = new GlyphHangerScript();
 		ghs.setEnv(window);
-		ghs.init( div );
+		ghs.init( div, {}, true );
 
 		it( "should match", function() {
 			assert.equal( ghs.toString(), "BCD" );
@@ -52,7 +52,7 @@ describe( "GlyphHanger Injected Script Tests", function() {
 
 		var ghs = new GlyphHangerScript();
 		ghs.setEnv(window);
-		ghs.init( div );
+		ghs.init( div, {}, true );
 
 		it( "should match", function() {
 			assert.equal( ghs.toString(), "Bcd" );
@@ -65,7 +65,7 @@ describe( "GlyphHanger Injected Script Tests", function() {
 
 		var ghs = new GlyphHangerScript();
 		ghs.setEnv(window);
-		ghs.init( div );
+		ghs.init( div, {}, true );
 
 		it( "should match", function() {
 			assert.equal( ghs.toString(), "bcd" );
@@ -78,7 +78,7 @@ describe( "GlyphHanger Injected Script Tests", function() {
 
 		var ghs = new GlyphHangerScript();
 		ghs.setEnv(window);
-		ghs.init( div );
+		ghs.init( div, {}, true );
 
 		it( "should match", function() {
 			// TESTtest => unique and sorted becomes ESTest
@@ -93,7 +93,7 @@ describe( "GlyphHanger Injected Script Tests", function() {
 
 		var ghs = new GlyphHangerScript();
 		ghs.setEnv(window);
-		ghs.init( div );
+		ghs.init( div, {}, true );
 
 		it( "should match", function() {
 			assert.equal( ghs.toString(), "0123456789bcdefg" );
@@ -107,7 +107,7 @@ describe( "GlyphHanger Injected Script Tests", function() {
 		var ghs = new GlyphHangerScript();
 		ghs.setEnv(window);
 		ghs.saveGlyphs( "efgh", "serif");
-		ghs.init( div );
+		ghs.init( div, {}, true );
 
 		it( "should match", function() {
 			assert.equal( ghs.toString(), "bcdefgh" );
@@ -120,7 +120,7 @@ describe( "GlyphHanger Injected Script Tests", function() {
 
 		var ghs = new GlyphHangerScript();
 		ghs.setEnv(window);
-		ghs.init( div );
+		ghs.init( div, {}, true );
 
 		it( "has a surrogate pair", function() {
 			assert.equal( ghs.toString(), "\\uD83D\\uDE0E" );
@@ -133,7 +133,7 @@ describe( "GlyphHanger Injected Script Tests", function() {
 
 		var ghs = new GlyphHangerScript();
 		ghs.setEnv(window);
-		ghs.init( div );
+		ghs.init( div, {}, true );
 
 		it( "has two surrogate pairs", function() {
 			assert.equal( ghs.toString(), "\\uD83D\\uDCA9\\uD83D\\uDE0E" );
@@ -146,7 +146,7 @@ describe( "GlyphHanger Injected Script Tests", function() {
 
 		var ghs = new GlyphHangerScript();
 		ghs.setEnv(window);
-		ghs.init( div );
+		ghs.init( div, {}, true );
 
 		it( "should match", function() {
 			assert.equal( ghs.getFamilySet("monospace").toString(), "bcd" );
@@ -161,7 +161,7 @@ describe( "GlyphHanger Injected Script Tests", function() {
 
 		var ghs = new GlyphHangerScript();
 		ghs.setEnv(window);
-		ghs.init( div );
+		ghs.init( div, {}, true );
 
 		it( "should match", function() {
 			assert.equal( ghs.getFamilySet("monospace").toString(), "bcd" );
@@ -177,7 +177,7 @@ describe( "GlyphHanger Injected Script Tests", function() {
 
 		var ghs = new GlyphHangerScript();
 		ghs.setEnv(window);
-		ghs.init( div );
+		ghs.init( div, {}, true );
 
 		it( "should match", function() {
 			assert.deepEqual( ghs.toJSON(), {"monospace":[98,99,100],"serif":[101,102,103],"*":[98,99,100,101,102,103]} );
@@ -214,7 +214,7 @@ describe( "GlyphHanger Injected Script Tests", function() {
 
 		var ghs = new GlyphHangerScript();
 		ghs.setEnv(window);
-		ghs.init( div );
+		ghs.init( div, {}, true );
 
 		it( "should match", function() {
 			assert.deepEqual( ghs.toJSON(), {"Lato":[98,99,100],"serif":[101,102,103],"*":[98,99,100,101,102,103]} );

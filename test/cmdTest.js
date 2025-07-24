@@ -2,7 +2,7 @@ import assert from "assert";
 import path from "path";
 import childProcess from "child_process";
 import fs from "fs";
-import pkg from "../package.json" with { type: "json" };
+import {fileURLToPath} from "url";
 
 describe( "CLI (version, help)", function() {
 	it( "outputs version", function () {
@@ -11,6 +11,7 @@ describe( "CLI (version, help)", function() {
 			cwd: path.resolve(import.meta.dirname, "..")
 		});
 
+		const pkg = JSON.parse ( fs.readFileSync( fileURLToPath( import.meta.resolve( "../package.json" ) ) ) );
 		assert.equal( output.toString().trim(), pkg.version );
 	});
 

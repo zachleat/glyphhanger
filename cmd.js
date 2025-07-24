@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import minimist from "minimist";
 import pc from "picocolors";
+import * as fsp from "fs/promises";
+import {fileURLToPath} from "url";
 import {text} from "stream/consumers";
 import GlyphHanger from "./src/GlyphHanger.js";
 import GlyphHangerWhitelist from "./src/GlyphHangerWhitelist.js";
@@ -79,7 +81,7 @@ async function main() {
 	gh.setStandardInput(standardInput);
 
 	if( argv.version ) {
-		var pkg = (await import( "./package.json", {with: {type: 'json'}} )).default;
+		var pkg = JSON.parse( await fsp.readFile( fileURLToPath( import.meta.resolve( "./package.json" ) ), "utf-8" ) );
 		console.log( pkg.version );
 	} else if( argv.help ) {
 		gh.outputHelp();

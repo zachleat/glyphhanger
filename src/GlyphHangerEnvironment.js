@@ -1,19 +1,18 @@
 import pc from "picocolors";
 import path from "path";
-import fs from "fs";
+import * as fsp from "fs/promises";
 import * as jsdom from "jsdom";
 import puppeteer from "puppeteer";
 import WebServer from "./WebServer.js";
 import createDebug from "debug";
 import {fileURLToPath} from "url";
-const fsp = fs.promises;
 const { JSDOM } = jsdom;
 const debugNodes = createDebug("glyphhanger:nodes");
 
 class EnvironmentScripts {
 	constructor() {
 		this.charactersetPath = fileURLToPath(import.meta.resolve("characterset"));
-		this.glyphhangerPath = path.resolve(import.meta.dirname, "../src/glyphhanger-script.js");
+		this.glyphhangerPath = fileURLToPath(import.meta.resolve("../src/glyphhanger-script.js"));
 	}
 
 	async read() {
@@ -140,7 +139,7 @@ class PuppeteerEnvironment {
 			});
 
 			await page.addScriptTag({
-				path: path.resolve(import.meta.dirname, "../src/glyphhanger-script.js")
+				path: fileURLToPath(import.meta.resolve("../src/glyphhanger-script.js"))
 			});
 
 			return page;

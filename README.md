@@ -20,6 +20,9 @@ brew install python fonttools
 
 # Or use pip3
 pip3 install fonttools
+
+# Alternative command for WSL
+sudo apt install fonttools
 ```
 
 ```sh

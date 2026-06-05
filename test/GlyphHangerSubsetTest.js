@@ -12,7 +12,7 @@ describe( "GlyphHangerSubset", function() {
 
 	it( "getFilenames (no formats set)", function() {
 		var subset = new GlyphHangerSubset();
-		assert.deepEqual( subset.getFilenames("roboto.ttf"), ["roboto-subset.ttf", "roboto-subset.zopfli.woff", "roboto-subset.woff2"] );
+		assert.deepEqual( subset.getFilenames("roboto.ttf"), ["roboto-subset.woff2"] );
 	});
 
 	it( "getFilenames (woff, woff2)", function() {

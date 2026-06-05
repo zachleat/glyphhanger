@@ -1,5 +1,5 @@
 function GlyphHangerFormat( formatsString ) {
-	this.setFormats( formatsString || "ttf,woff2,woff-zopfli" );
+	this.setFormats( formatsString || "woff2" );
 };
 
 GlyphHangerFormat.prototype.setFormats = function( formatsString ) {

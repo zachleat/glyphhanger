@@ -15,15 +15,19 @@ npm install -g glyphhanger
 See [https://github.com/fonttools/fonttools](https://github.com/fonttools/fonttools).
 
 ```sh
-pip install fonttools
+# Use Homebrew
+brew install python fonttools
+
+# Or use pip3
+pip3 install fonttools
 ```
 
 ```sh
 # Additional installation for --flavor=woff2
-pip install brotli
+pip3 install brotli
 
 # Additional installation for --flavor=woff --with-zopfli
-pip install zopfli
+pip3 install zopfli
 ```
 
 If you want to read an in-depth tutorial on the installation steps above, please read [How I set up Glyphhanger on macOS for optimizing and converting font files for the Web](https://www.sarasoueidan.com/blog/glyphhanger/) by Sara Soueidan.

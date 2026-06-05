@@ -6,9 +6,6 @@ As of GlyphHanger 1.0.5, this can be done automatically with the `--subset` opti
 > glyphhanger ./test.html > glyphhanger_output
 > pyftsubset FONTFILENAME.ttf --unicodes-file=glyphhanger_output --flavor=woff
 
-# install py-zopfli (see below) to use --with-zopfli for additional woff byte savings (ignored for woff2)
-> pyftsubset FONTFILENAME.ttf --unicodes-file=glyphhanger_output --flavor=woff --with-zopfli
-
 # or output WOFF2 (see additional installation instructions below)
 > pyftsubset FONTFILENAME.ttf --unicodes-file=glyphhanger_output --flavor=woff2
 

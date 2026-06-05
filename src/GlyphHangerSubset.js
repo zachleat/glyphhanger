@@ -54,9 +54,7 @@ class GlyphHangerSubset {
 		if( this.formats.hasFormat( "woff2" ) ) {
 			srcs.woff2 = this.getPath(this.getFilenameFromTTFPath(ttfPath, "woff2"), dir);
 		}
-		if( this.formats.hasFormat( "woff-zopfli" ) ) {
-			srcs.woff = this.getPath(this.getFilenameFromTTFPath(ttfPath, "woff", true), dir);
-		} else if( this.formats.hasFormat( "woff" ) ) {
+		if( this.formats.hasFormat( "woff" ) ) {
 			srcs.woff = this.getPath(this.getFilenameFromTTFPath(ttfPath, "woff"), dir);
 		}
 		if( this.formats.hasFormat( "ttf" ) ) {
@@ -73,18 +71,15 @@ class GlyphHangerSubset {
 		if( this.formats.hasFormat( "woff" ) ) {
 			files.push(this.getPath(this.getFilenameFromTTFPath(ttfPath, "woff"), dir));
 		}
-		if( this.formats.hasFormat( "woff-zopfli" ) ) {
-			files.push(this.getPath(this.getFilenameFromTTFPath(ttfPath, "woff", true), dir));
-		}
 		if( this.formats.hasFormat( "woff2" ) ) {
 			files.push(this.getPath(this.getFilenameFromTTFPath(ttfPath, "woff2"), dir));
 		}
 		return files;
 	}
 
-	getFilenameFromTTFPath( ttfPath, format, useZopfli ) {
+	getFilenameFromTTFPath( ttfPath, format ) {
 		var fontPath = parsePath( ttfPath );
-		var outputFilename = fontPath.name + "-subset" + ( useZopfli ? ".zopfli" : "" ) + ( format ? "." + format : fontPath.ext );
+		var outputFilename = fontPath.name + "-subset" + ( format ? "." + format : fontPath.ext );
 		return outputFilename;
 	}
 
@@ -96,17 +91,14 @@ class GlyphHangerSubset {
 			if( this.formats.hasFormat( "woff" ) ) {
 				this.subset( fontPath, unicodes, "woff", false );
 			}
-			if( this.formats.hasFormat( "woff-zopfli" ) ) {
-				this.subset( fontPath, unicodes, "woff", true );
-			}
 			if( this.formats.hasFormat( "woff2" ) ) {
 				this.subset( fontPath, unicodes, "woff2" );
 			}
 		}.bind( this ));
 	}
 
-	subset( inputFile, unicodes, format, useZopfli ) {
-		var outputFilename = this.getFilenameFromTTFPath( inputFile, format, useZopfli );
+	subset( inputFile, unicodes, format ) {
+		var outputFilename = this.getFilenameFromTTFPath( inputFile, format );
 		var outputDir = this.outputDirectory || parsePath( inputFile ).dir;
 		var outputFullPath = path.join( outputDir, outputFilename );
 		var cmd = [ "pyftsubset" ];
@@ -118,10 +110,6 @@ class GlyphHangerSubset {
 			format = format.toLowerCase();
 
 			cmd.push( "--flavor=" + format );
-
-			if( format === "woff" && useZopfli ) {
-				cmd.push( "--with-zopfli" );
-			}
 		}
 
 		if( !shell.which( "pyftsubset" ) ) {

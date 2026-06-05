@@ -249,8 +249,8 @@ class GlyphHanger {
 		out.push( "       Output a @font-face block for the current data." );
 		out.push( "  --subset=*.ttf" );
 		out.push( "       Automatically subsets one or more font files using fonttools `pyftsubset`." );
-		out.push( "  --formats=ttf,woff,woff2,woff-zopfli" );
-		out.push( "       woff2 requires brotli, woff-zopfli requires zopfli, installation instructions: https://github.com/filamentgroup/glyphhanger#installing-pyftsubset" );
+		out.push( "  --formats=ttf,woff,woff2" );
+		out.push( "       woff2 requires brotli, installation instructions: https://github.com/filamentgroup/glyphhanger#installing-pyftsubset" );
 		out.push( "" );
 		out.push( "  --spider" );
 		out.push( "       Gather local URLs from the main page and navigate those URLs." );

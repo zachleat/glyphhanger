@@ -75,7 +75,8 @@
 		if(!pseudo) {
 			return;
 		}
-		return this.removeQuotes(this.win.getComputedStyle( node, pseudo ).getPropertyValue( "content" ), true);
+		// getComputedStyle( node, pseudo ) not supported in JSDOM https://github.com/jsdom/jsdom/issues/1928
+		return this.removeQuotes(this.win.getComputedStyle( node ).getPropertyValue( "content" ), true);
 	};
 
 	// TODO resolve keywords when not string content
@@ -116,7 +117,8 @@
 		}
 		var fontFamilyList;
 		if( context ) {
-			var fontFamily = this.win.getComputedStyle( context, pseudo ).getPropertyValue( "font-family" );
+			// getComputedStyle( node, pseudo ) not supported in JSDOM https://github.com/jsdom/jsdom/issues/1928
+			var fontFamily = this.win.getComputedStyle( context ).getPropertyValue( "font-family" );
 			// console.log( "node font-family:", fontFamily, "fallback to", this.defaultFontFamily );
 			fontFamilyList = fontFamily || this.defaultFontFamily;
 		}

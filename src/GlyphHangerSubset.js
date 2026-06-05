@@ -113,7 +113,7 @@ class GlyphHangerSubset {
 		cmd.push( "\"" + inputFile + "\"" );
 		cmd.push( "--output-file=\"" + outputFullPath + "\"" );
 		cmd.push( "--unicodes=" + unicodes );
-		cmd.push( "--layout-features='*'" );
+		cmd.push( "--layout-features=\"*\"" );
 		if( format ) {
 			format = format.toLowerCase();
 

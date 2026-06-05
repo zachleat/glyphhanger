@@ -3,13 +3,13 @@ const GlyphHanger = require( "../src/GlyphHanger.js" );
 
 describe( "Integration test (using JSDOM)", function() {
 
-	it( "should have 3 distinct glyphs", function( done ) {
+	it( "should have 4 distinct glyphs", function( done ) {
 		this.timeout( 10000 );
 
 		var gh = new GlyphHanger();
 		gh.setEnvironmentJSDOM();
 		gh.fetchUrls(["test/test.html"]).then(function(result) {
-			assert.equal( gh.getUniversalSet().toString(), "abc" );
+			assert.equal( gh.getUnicodeRange(), "U+20,U+61-63" );
 
 			done();
 		});

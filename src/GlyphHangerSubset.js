@@ -1,7 +1,7 @@
 const shell = require( "shelljs" );
 const parsePath = require( "parse-filepath" );
 const fs = require( "fs" );
-const filesize = require( "filesize" );
+const { filesize } = require( "filesize" );
 const path = require( "path" );
 const chalk = require( "chalk" );
 const glob = require( "glob" );

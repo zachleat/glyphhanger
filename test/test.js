@@ -2,7 +2,12 @@ const assert = require( "assert" );
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const GlyphHanger = require( "../src/GlyphHanger" );
-const window = (new JSDOM(`<!doctype html><html><body></body></html>`)).window;
+
+// ignore not implemented pseudo errors (see also GlyphHangerEnvironment.js)
+let virtualConsole = new jsdom.VirtualConsole();
+virtualConsole.forwardTo(console, { jsdomErrors: ["css-parsing", "resource-loading", "unhandled-exception"]});
+
+const window = (new JSDOM(`<!doctype html><html><body></body></html>`, { virtualConsole })).window;
 const document = window.document;
 
 const GlyphHangerScript = require( "../src/glyphhanger-script.js" );

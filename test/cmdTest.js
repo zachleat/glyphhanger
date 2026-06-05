@@ -101,7 +101,7 @@ describe( "CLI (urls)", function() {
 		let json = JSON.parse(output.toString().trim());
 		assert.deepEqual( json, {
 			"*": "U+61-69",
-			"Times New Roman": "U+61-63",
+			"Times": "U+61-63",
 			"monospace": "U+64-66",
 			"A Web Font": "U+67-69"
 		});
@@ -117,7 +117,7 @@ describe( "CLI (urls)", function() {
 		let json = JSON.parse(output.toString().trim());
 		assert.deepEqual( json, {
 			"*": "U+61-69",
-			"Times New Roman": "U+61-63",
+			"Times": "U+61-63",
 			"monospace": "U+64-66",
 			"A Web Font": "U+67-69"
 		});

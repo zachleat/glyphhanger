@@ -24,6 +24,8 @@ class EnvironmentScripts {
 class JSDOMEnvironment {
 	constructor() {
 		this.scripts = new EnvironmentScripts();
+		this.virtualConsole = new jsdom.VirtualConsole();
+		this.virtualConsole.forwardTo(console, { jsdomErrors: ["css-parsing", "resource-loading", "unhandled-exception"]});
 	}
 
 	requiresWebServer() {
@@ -37,7 +39,9 @@ class JSDOMEnvironment {
 			// resources: "usable",
 
 			// https://github.com/jsdom/jsdom/issues/2304
-			url: "http://localhost/"
+			url: "http://localhost/",
+
+			virtualConsole: this.virtualConsole,
 		};
 
 		if( standardInput ) {

@@ -244,5 +244,6 @@ Or, alternatively `npx mocha`.
 
 ## Alternatives to GlyphHanger
 
-* [unicode-ranger from Jeremy Wagner](https://github.com/malchata/unicode-ranger)
-* [subfont from Peter Müller](https://www.npmjs.com/package/subfont)
+* [`unicode-ranger` from Jeremy Wagner](https://github.com/malchata/unicode-ranger)
+* [`subfont` from Peter Müller](https://www.npmjs.com/package/subfont)
+* [`glypht` from valadaptive](https://glypht.valadaptive.dev/docs/)

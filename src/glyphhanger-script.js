@@ -75,8 +75,8 @@
 		if(!pseudo) {
 			return;
 		}
-		// getComputedStyle( node, pseudo ) not supported in JSDOM https://github.com/jsdom/jsdom/issues/1928
-		return this.removeQuotes(this.win.getComputedStyle( node ).getPropertyValue( "content" ), true);
+		// Warning: getComputedStyle( node, pseudo ) not supported in JSDOM https://github.com/jsdom/jsdom/issues/1928
+		return this.removeQuotes(this.win.getComputedStyle( node, pseudo ).getPropertyValue( "content" ), true);
 	};
 
 	// TODO resolve keywords when not string content
@@ -117,8 +117,8 @@
 		}
 		var fontFamilyList;
 		if( context ) {
-			// getComputedStyle( node, pseudo ) not supported in JSDOM https://github.com/jsdom/jsdom/issues/1928
-			var fontFamily = this.win.getComputedStyle( context ).getPropertyValue( "font-family" );
+			// Warning: getComputedStyle( node, pseudo ) not supported in JSDOM https://github.com/jsdom/jsdom/issues/1928
+			var fontFamily = this.win.getComputedStyle( context, pseudo ).getPropertyValue( "font-family" );
 			// console.log( "node font-family:", fontFamily, "fallback to", this.defaultFontFamily );
 			fontFamilyList = fontFamily || this.defaultFontFamily;
 		}
@@ -182,6 +182,11 @@
 		this.globalSet = this.globalSet.union( set );
 
 		if( fontFamily ) {
+			// JSDOM ambiguity
+			if(fontFamily === "depends on user agent") {
+				fontFamily = this.defaultFontFamily;
+			}
+
 			var key = fontFamily.toLowerCase();
 			this.displayFontFamilyNames[ key ] = fontFamily;
 
@@ -192,6 +197,10 @@
 	};
 
 	GH.prototype.getFamilySet = function(fontFamily) {
+		// JSDOM ambiguity
+		if(fontFamily === "depends on user agent") {
+			fontFamily = this.this.defaultFontFamily;
+		}
 		return fontFamily in this.fontFamilySets ? this.fontFamilySets[ fontFamily ] : new CharacterSet();
 	};
 

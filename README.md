@@ -12,11 +12,11 @@ npm install -g glyphhanger
 
 ### Prerequisite: `pyftsubset`
 
-See [https://github.com/fonttools/fonttools](https://github.com/fonttools/fonttools).
+See [https://github.com/fonttools/fonttools](https://github.com/fonttools/fonttools). You will need `python` too (use `brew install python` if necessary). 
 
 ```sh
 # Use Homebrew (you may also need `brotli` here)
-brew install python fonttools brotli
+brew install fonttools brotli
 
 # Or use pip3
 pip3 install fonttools brotli

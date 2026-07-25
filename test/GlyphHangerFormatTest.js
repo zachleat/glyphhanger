@@ -1,5 +1,5 @@
-const assert = require( "assert" );
-const GlyphHangerFormat = require( "../src/GlyphHangerFormat" );
+import assert from "assert";
+import GlyphHangerFormat from "../src/GlyphHangerFormat.js";
 
 describe( "GlyphHangerFormat", function() {
 	it( "hasFormat just ttf", function() {

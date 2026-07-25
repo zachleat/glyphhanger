@@ -1,9 +1,10 @@
-const chalk = require( "chalk" );
-const CharacterSet = require( "characterset" );
-const WebServer = require( "./WebServer" );
-const GlyphHangerWhitelist = require( "./GlyphHangerWhitelist" );
-const GlyphHangerEnvironment = require( "./GlyphHangerEnvironment" );
-const debug = require("debug")("glyphhanger");
+import chalk from "chalk";
+import CharacterSet from "characterset";
+import WebServer from "./WebServer.js";
+import GlyphHangerWhitelist from "./GlyphHangerWhitelist.js";
+import GlyphHangerEnvironment from "./GlyphHangerEnvironment.js";
+import createDebug from "debug";
+const debug = createDebug("glyphhanger");
 
 class GlyphHanger {
 	constructor() {
@@ -264,4 +265,4 @@ class GlyphHanger {
 	}
 }
 
-module.exports = GlyphHanger;
+export default GlyphHanger;

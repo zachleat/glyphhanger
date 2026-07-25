@@ -1,7 +1,8 @@
-const assert = require( "assert" );
-const jsdom = require("jsdom");
+import assert from "assert";
+import * as jsdom from "jsdom";
+import GlyphHanger from "../src/GlyphHanger.js";
+import GlyphHangerScript from "../src/glyphhanger-script.js";
 const { JSDOM } = jsdom;
-const GlyphHanger = require( "../src/GlyphHanger" );
 
 // ignore not implemented pseudo errors (see also GlyphHangerEnvironment.js)
 let virtualConsole = new jsdom.VirtualConsole();
@@ -9,8 +10,6 @@ virtualConsole.forwardTo(console, { jsdomErrors: ["css-parsing", "resource-loadi
 
 const window = (new JSDOM(`<!doctype html><html><body></body></html>`, { virtualConsole })).window;
 const document = window.document;
-
-const GlyphHangerScript = require( "../src/glyphhanger-script.js" );
 
 describe( "GlyphHanger Injected Script Tests", function() {
 	describe( "Simple node", function() {

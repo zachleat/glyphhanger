@@ -1,15 +1,17 @@
 #!/usr/bin/env node
-const argv = require( "minimist" )( process.argv.slice(2) );
-const chalk = require("chalk");
-const getStdin = require("get-stdin");
-const GlyphHanger = require( "./src/GlyphHanger" );
-const GlyphHangerWhitelist = require( "./src/GlyphHangerWhitelist" );
-const GlyphHangerSubset = require( "./src/GlyphHangerSubset" );
-const GlyphHangerFontFace = require( "./src/GlyphHangerFontFace" );
-const MultipleSpiderPigs = require( "./src/MultipleUrlSpiderPig" );
-const debug = require( "debug" )( "glyphhanger:cli" );
+import minimist from "minimist";
+import chalk from "chalk";
+import getStdin from "get-stdin";
+import GlyphHanger from "./src/GlyphHanger.js";
+import GlyphHangerWhitelist from "./src/GlyphHangerWhitelist.js";
+import GlyphHangerSubset from "./src/GlyphHangerSubset.js";
+import GlyphHangerFontFace from "./src/GlyphHangerFontFace.js";
+import MultipleSpiderPigs from "./src/MultipleUrlSpiderPig.js";
+import createDebug from "debug";
+const argv = minimist(process.argv.slice(2));
+const debug = createDebug("glyphhanger:cli");
 
-var whitelist = new GlyphHangerWhitelist( argv.w || argv.whitelist, {
+var whitelist = new GlyphHangerWhitelist(argv.w || argv.whitelist, {
 	US_ASCII: argv.US_ASCII,
 	LATIN: argv.LATIN
 });
@@ -75,7 +77,7 @@ if( argv.subset ) {
 	gh.setStandardInput(standardInput);
 
 	if( argv.version ) {
-		var pkg = require( "./package.json" );
+		var pkg = (await import( "./package.json", {with: {type: 'json'}} )).default;
 		console.log( pkg.version );
 	} else if( argv.help ) {
 		gh.outputHelp();

@@ -1,7 +1,7 @@
-var assert = require( "assert" );
-var path = require( "path" );
-var childProcess = require( "child_process" );
-var fs = require( "fs" );
+import assert from "assert";
+import path from "path";
+import childProcess from "child_process";
+import fs from "fs";
 
 // TODO glyphhanger --subset=*.ttf																(file format conversion)
 // DONE glyphhanger --subset=*.ttf --whitelist=ABCD								(reduce to whitelist characters)
@@ -20,7 +20,7 @@ describe( "CLI (subset)", function() {
 		var fontPath = "test/fonts/sourcesanspro-regular.ttf";
 
 		let output = childProcess.execSync(`node cmd.js --whitelist=ABC --subset=${fontPath} --formats=ttf`, {
-			cwd: path.resolve(__dirname, "..")
+			cwd: path.resolve(import.meta.dirname, "..")
 		});
 
 		var subsetPath = fontPath.split( ".ttf" ).join( "-subset.ttf" );
@@ -40,7 +40,7 @@ describe( "CLI (subset)", function() {
 		var fontPath = "test/fonts/sourcesanspro-regular.ttf";
 
 		let output = childProcess.execSync(`node cmd.js --whitelist=ABC --subset=${fontPath} --formats=ttf --css`, {
-			cwd: path.resolve(__dirname, "..")
+			cwd: path.resolve(import.meta.dirname, "..")
 		});
 
 		var subsetPath = fontPath.split( ".ttf" ).join( "-subset.ttf" );

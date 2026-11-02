@@ -1,8 +1,7 @@
-const parsePath = require("parse-filepath");
-const fs = require("fs");
-const path = require( "path" );
-const pkg = require("../package.json");
-
+import parsePath from "parse-filepath";
+import fs from "fs";
+import path from "path";
+import pkg from "../package.json" with { type: "json" };
 class GlyphHangerFontFace {
 	constructor() {
 		this.cssOutput = false;
@@ -105,4 +104,4 @@ ${this.toString(filePath, outputDir)}`, {"encoding": "utf8"});
 	}
 }
 
-module.exports = GlyphHangerFontFace;
+export default GlyphHangerFontFace;

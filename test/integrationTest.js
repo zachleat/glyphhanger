@@ -1,5 +1,5 @@
-const assert = require( "assert" );
-const GlyphHanger = require( "../src/GlyphHanger.js" );
+import assert from "assert";
+import GlyphHanger from "../src/GlyphHanger.js";
 
 // Puppeteer can’t launch Chrome on GitHub Actions.
 const itPuppeteer = process.env.CI ? it.skip : it;

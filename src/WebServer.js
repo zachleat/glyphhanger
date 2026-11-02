@@ -1,8 +1,9 @@
-const connect = require("connect");
-const serveStatic = require("serve-static");
-const path = require( "path" );
-const { URL } = require("url");
-const debug = require("debug")("glyphhanger:webserver");
+import connect from "connect";
+import serveStatic from "serve-static";
+import path from "path";
+import { URL } from "url";
+import createDebug from "debug";
+const debug = createDebug("glyphhanger:webserver");
 
 const SITE_PATH = path.resolve(process.cwd(), ".");
 const SERVER_PORT = 8093;
@@ -53,4 +54,4 @@ class WebServer {
 	}
 }
 
-module.exports = WebServer;
+export default WebServer;

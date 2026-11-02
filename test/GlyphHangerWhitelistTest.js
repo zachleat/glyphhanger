@@ -1,6 +1,6 @@
-const assert = require( "assert" );
-const GlyphHangerWhitelist = require( "../src/GlyphHangerWhitelist" );
-const CharacterSet = require( "characterset" );
+import assert from "assert";
+import GlyphHangerWhitelist from "../src/GlyphHangerWhitelist.js";
+import CharacterSet from "characterset";
 
 describe( "GlyphHangerWhitelist", function() {
 	describe( "constructor", function() {

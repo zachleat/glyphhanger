@@ -1,18 +1,20 @@
-const chalk = require( "chalk" );
-const path = require( "path" );
-const fs = require( "fs" );
+import chalk from "chalk";
+import path from "path";
+import fs from "fs";
+import * as jsdom from "jsdom";
+import puppeteer from "puppeteer";
+import getStdin from "get-stdin";
+import WebServer from "./WebServer.js";
+import createDebug from "debug";
+import {fileURLToPath} from "url";
 const fsp = fs.promises;
-const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-const puppeteer = require("puppeteer");
-const getStdin = require('get-stdin');
-const WebServer = require("./WebServer");
-const debugNodes = require("debug")("glyphhanger:nodes");
+const debugNodes = createDebug("glyphhanger:nodes");
 
 class EnvironmentScripts {
 	constructor() {
-		this.charactersetPath = require.resolve("characterset");
-		this.glyphhangerPath = path.resolve(__dirname, "../src/glyphhanger-script.js");
+		this.charactersetPath = fileURLToPath(import.meta.resolve("characterset"));
+		this.glyphhangerPath = path.resolve(import.meta.dirname, "../src/glyphhanger-script.cjs");
 	}
 
 	async read() {
@@ -139,11 +141,11 @@ class PuppeteerEnvironment {
 			});
 
 			await page.addScriptTag({
-				path: require.resolve("characterset")
+				path: fileURLToPath(import.meta.resolve("characterset"))
 			});
 
 			await page.addScriptTag({
-				path: path.resolve(__dirname, "../src/glyphhanger-script.js")
+				path: path.resolve(import.meta.dirname, "../src/glyphhanger-script.cjs")
 			});
 
 			return page;
@@ -223,4 +225,4 @@ class GlyphHangerEnvironment {
 	}
 }
 
-module.exports = GlyphHangerEnvironment;
+export default GlyphHangerEnvironment;

@@ -3,6 +3,7 @@
   "version": "6.0.0",
   "description": "A tool to ease webfont subsetting.",
   "main": "src/GlyphHanger.js",
+  "type": "module",
   "scripts": {
     "test": "mocha"
   },

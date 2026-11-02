@@ -2,8 +2,11 @@ var assert = require( "assert" );
 var path = require( "path" );
 var childProcess = require( "child_process" );
 
+// Puppeteer can’t launch Chrome on GitHub Actions.
+const itPuppeteer = process.env.CI ? it.skip : it;
+
 describe( "CLI (pseudos)", function() {
-	it( "works with pseudo elements", function () {
+	itPuppeteer( "works with pseudo elements", function () {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/pseudos/test.html --json`, {

@@ -1,9 +1,12 @@
 const assert = require( "assert" );
 const GlyphHanger = require( "../src/GlyphHanger.js" );
 
+// Puppeteer can’t launch Chrome on GitHub Actions.
+const itPuppeteer = process.env.CI ? it.skip : it;
+
 describe( "Integration test (using Puppeteer)", function() {
 
-	it( "should have 4 distinct glyphs", function( done ) {
+	itPuppeteer( "should have 4 distinct glyphs", function( done ) {
 		this.timeout( 10000 );
 
 		var gh = new GlyphHanger();
@@ -14,7 +17,7 @@ describe( "Integration test (using Puppeteer)", function() {
 		});
 	});
 
-	it( "should work with text-transform: uppercase", function( done ) {
+	itPuppeteer( "should work with text-transform: uppercase", function( done ) {
 		this.timeout( 10000 );
 
 		var gh = new GlyphHanger();
@@ -26,7 +29,7 @@ describe( "Integration test (using Puppeteer)", function() {
 		});
 	});
 
-	it( "should work with text-transform: capitalize", function( done ) {
+	itPuppeteer( "should work with text-transform: capitalize", function( done ) {
 		this.timeout( 10000 );
 
 		var gh = new GlyphHanger();
@@ -38,7 +41,7 @@ describe( "Integration test (using Puppeteer)", function() {
 		});
 	});
 
-	it( "should work with font-variant: small-caps", function( done ) {
+	itPuppeteer( "should work with font-variant: small-caps", function( done ) {
 		this.timeout( 10000 );
 
 		var gh = new GlyphHanger();
@@ -50,7 +53,7 @@ describe( "Integration test (using Puppeteer)", function() {
 		});
 	});
 
-	it( "should work with onload and DOMContentLoaded content", function( done ) {
+	itPuppeteer( "should work with onload and DOMContentLoaded content", function( done ) {
 		this.timeout( 10000 );
 
 		var gh = new GlyphHanger();

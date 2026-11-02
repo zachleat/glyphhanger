@@ -3,6 +3,9 @@ var path = require( "path" );
 var childProcess = require( "child_process" );
 var fs = require( "fs" );
 
+// Puppeteer can’t launch Chrome on GitHub Actions.
+const itPuppeteer = process.env.CI ? it.skip : it;
+
 describe( "CLI (version, help)", function() {
 	it( "outputs version", function () {
 		this.timeout( 10000 );
@@ -34,7 +37,7 @@ describe( "CLI (version, help)", function() {
 });
 
 describe( "CLI (urls)", function() {
-	it( "can use a single url", function () {
+	itPuppeteer( "can use a single url", function () {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/multiple/one.html`, {
@@ -44,7 +47,7 @@ describe( "CLI (urls)", function() {
 		assert.equal( output.toString().trim(), "U+61-63" );
 	});
 
-	it( "can use multiple urls", function () {
+	itPuppeteer( "can use multiple urls", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js test/multiple/one.html test/multiple/two.html`, {
 			cwd: path.resolve(__dirname, "..")
@@ -53,7 +56,7 @@ describe( "CLI (urls)", function() {
 		assert.equal( output.toString().trim(), "U+61-66" );
 	});
 
-	it( "can use spider", function () {
+	itPuppeteer( "can use spider", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js test/urls/root.html --spider`, {
 			cwd: path.resolve(__dirname, "..")
@@ -62,7 +65,7 @@ describe( "CLI (urls)", function() {
 		assert.equal( output.toString().trim(), "U+41-47" );
 	});
 
-	it( "can use spider with limit", function () {
+	itPuppeteer( "can use spider with limit", function () {
 		this.timeout( 10000 );
 		let output = childProcess.execSync(`node cmd.js test/urls/root.html --spider-limit=2`, {
 			cwd: path.resolve(__dirname, "..")
@@ -71,7 +74,7 @@ describe( "CLI (urls)", function() {
 		assert.equal( output.toString().trim(), "U+41-44" );
 	});
 
-	it( "works with emoji (on a local html file)", function () {
+	itPuppeteer( "works with emoji (on a local html file)", function () {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/test-emoji.html`, {
@@ -81,7 +84,7 @@ describe( "CLI (urls)", function() {
 		assert.deepEqual( output.toString().trim(), "U+31-34,U+41-44,U+1F4A9");
 	});
 
-	it( "works with emoji (on a local txt file)", function () {
+	itPuppeteer( "works with emoji (on a local txt file)", function () {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/test-emoji.txt`, {
@@ -91,7 +94,7 @@ describe( "CLI (urls)", function() {
 		assert.deepEqual( output.toString().trim(), "U+31-34,U+41-44,U+1F4A9");
 	});
 
-	it( "outputs json per font-family (with --json)", function () {
+	itPuppeteer( "outputs json per font-family (with --json)", function () {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/json/families.html --json`, {
@@ -107,7 +110,7 @@ describe( "CLI (urls)", function() {
 		});
 	});
 
-	it( "outputs json per font-family (with empty --family)", function () {
+	itPuppeteer( "outputs json per font-family (with empty --family)", function () {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/json/families.html --family`, {
@@ -123,7 +126,7 @@ describe( "CLI (urls)", function() {
 		});
 	});
 
-	it( "outputs results for a single font-family", function () {
+	itPuppeteer( "outputs results for a single font-family", function () {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/json/families.html --family='A Web Font'`, {
@@ -133,7 +136,7 @@ describe( "CLI (urls)", function() {
 		assert.deepEqual( output.toString().trim(), "U+67-69" );
 	});
 
-	it( "outputs results for two font-families", function () {
+	itPuppeteer( "outputs results for two font-families", function () {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/json/families.html --family='A Web Font, monospace'`, {
@@ -214,7 +217,7 @@ describe( "CLI (css)", function() {
 }`) > - 1);
 	});
 
-	it( "single url --css", function () {
+	itPuppeteer( "single url --css", function () {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/multiple/one.html --css`, {
@@ -226,7 +229,7 @@ describe( "CLI (css)", function() {
 }`) > - 1);
 	});
 
-	it( "two font-families --css", function () {
+	itPuppeteer( "two font-families --css", function () {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/json/families.html --family='A Web Font, monospace' --css`, {
@@ -239,7 +242,7 @@ describe( "CLI (css)", function() {
 }`) > - 1);
 	});
 
-	it( "only returns visible text --onlyVisible", function () {
+	itPuppeteer( "only returns visible text --onlyVisible", function () {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/test-onlyVisible.html --onlyVisible`, {
@@ -249,7 +252,7 @@ describe( "CLI (css)", function() {
 		assert.equal( output.toString().trim(), "U+31-34" );
 	});
 
-	it( "only returns text from elements matching --cssSelector", function () {
+	itPuppeteer( "only returns text from elements matching --cssSelector", function () {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/test-cssSelector.html --cssSelector="pre"`, {
@@ -259,7 +262,7 @@ describe( "CLI (css)", function() {
 		assert.equal( output.toString().trim(), "U+20,U+61,U+63,U+65,U+67-69,U+6D-70,U+73,U+74" );
 	});
 
-	it( "--onlyVisible overrides --cssSelector", function () {
+	itPuppeteer( "--onlyVisible overrides --cssSelector", function () {
 		this.timeout( 10000 );
 
 		let output = childProcess.execSync(`node cmd.js test/test-cssSelectorVisible.html --cssSelector="pre" --onlyVisible`, {
